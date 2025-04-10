@@ -2,9 +2,11 @@
 
 class lineType {
 public:
-    lineType() {
-
-    }
+    lineType();
+    double findSlope();
+    bool isEqual();
+    bool isParallel();
+    bool isPerpendicular();
 private:
 
 };
