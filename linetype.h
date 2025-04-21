@@ -8,5 +8,5 @@ public:
     bool isParallel();
     bool isPerpendicular();
 private:
-
+    double a,b,c;
 };
