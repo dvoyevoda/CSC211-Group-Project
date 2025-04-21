@@ -2,11 +2,11 @@
 
 class lineType {
 public:
-    lineType();
+    lineType(double a = 0, double b = 0, double c = 0);
     double findSlope();
-    bool isEqual();
-    bool isParallel();
-    bool isPerpendicular();
+    bool isEqual(lineType line);
+    bool isParallel(lineType line);
+    bool isPerpendicular(lineType line);
 private:
     double a,b,c;
 };

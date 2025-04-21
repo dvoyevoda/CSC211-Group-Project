@@ -1,7 +1,7 @@
 #include<fstream>
 #include<iostream>
 
-#include "linetype.h"
+#include "linetype.cpp"
 using namespace std;
 
 int main () {
