@@ -24,10 +24,12 @@ bool lineType::isPerpendicular(lineType line) {
     return findSlope() * line.findSlope() == -1;
 }
 void lineType::findIntersection(lineType line) {
-    double slope1 = findSlope();
-    double slope2 = line.findSlope();
-    double x = (line.c-c)/(slope1-slope2);
-    double y = slope1*x + c;
-    cout << x << endl << y << endl;
+    double slope1 = findSlope(), 
+    slope2 = line.findSlope();
+
+    double x = (line.c-c)/(slope1-slope2), 
+    y = slope1*x + c;
+
+    cout << "Intersection between both lines: (" << x << ", " << y << ")" << endl;
 }
 
