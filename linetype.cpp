@@ -1,4 +1,29 @@
 #include "linetype.h"
 using namespace std;
 
-void
+lineType::lineType(double a, double b, double c) : a(a), b(b), c(c) {}
+
+double lineType::findSlope() {
+    return -a/b;
+}
+string lineType::isEqual(lineType line) {
+    if (a == line.a && b == line.b && c == line.c)
+        return "Both lines are equal.";
+    return "The lines are not equal.";
+}
+string lineType::isParallel(lineType line) {
+    if (findSlope() == line.findSlope())
+        return "Both lines are parallel.";
+    return "The lines are not parallel.";
+}
+bool lineType::isPerpendicular(lineType line) {
+    return findSlope() * line.findSlope() == -1;
+}
+void lineType::findIntersection(lineType line) {
+    double slope1 = findSlope();
+    double slope2 = line.findSlope();
+    double x = (line.c-c)/(slope1-slope2);
+    double y = slope1*x + c;
+    cout << x << endl << y << endl;
+}
+
