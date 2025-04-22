@@ -4,7 +4,11 @@ using namespace std;
 lineType::lineType(double a, double b, double c) : a(a), b(b), c(c) {}
 
 double lineType::findSlope() {
-    return -a/b;
+    if (b != 0) {
+        return -a/b;
+    } else {
+        return 0;
+    }
 }
 string lineType::isEqual(lineType line) {
     if (a == line.a && b == line.b && c == line.c)
