@@ -10,15 +10,15 @@ double lineType::findSlope() {
         return 0;
     }
 }
-string lineType::isEqual(lineType line) {
+bool lineType::isEqual(lineType line) {
     if (a == line.a && b == line.b && c == line.c)
-        return "Both lines are equal.";
-    return "The lines are not equal.";
+        return true;
+    return false;
 }
-string lineType::isParallel(lineType line) {
+bool lineType::isParallel(lineType line) {
     if (findSlope() == line.findSlope())
-        return "Both lines are parallel.";
-    return "The lines are not parallel.";
+        return true;
+    return false;
 }
 bool lineType::isPerpendicular(lineType line) {
     return findSlope() * line.findSlope() == -1;
@@ -33,3 +33,9 @@ void lineType::findIntersection(lineType line) {
     cout << "Intersection between both lines: (" << x << ", " << y << ")" << endl;
 }
 
+void lineType::printSlopeForm() {
+    cout << "y = " << findSlope() << "x + " << c << endl;
+}
+void lineType::printStandardForm() {
+    cout << a << "x + " << b << "y = " << c << endl;
+}
