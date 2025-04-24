@@ -11,6 +11,6 @@ class shapeType {
         void setLineType(int x, lineType y);
         lineType getLineType(int x);
     private:
-        std::string shapeName;
+        std::string shapeName = "N/A";
         lineType a, b, c, d;
 }; 

@@ -10,6 +10,7 @@ int main () {
 
     // [---------------------- PART 1: ----------------------]
 
+    // Example Lines
     lineType Line1(3,-3,1);
     lineType Line2(1,5,2);
 
@@ -76,16 +77,17 @@ int main () {
                 validShape = false;
                 break;
             }
-
             lineType Line(x, y, z);
             Shape.setLineType(i, Line);
         }
-
         if (!validShape) break;
         Shapes.push_back(Shape);
     }
 
-    
+    // Loop through array of shapes, determine the shape and set that as shape name.
+    for (shapeType& shape : Shapes) {
+
+    }
 
     /*  Print lines of each shape
 
