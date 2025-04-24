@@ -1,10 +1,15 @@
 #include<fstream>
 #include<iostream>
+#include <vector>
 
 #include "linetype.cpp"
+#include "shapetype.cpp"
 using namespace std;
 
 int main () {
+
+    // [---------------------- PART 1: ----------------------]
+
     lineType Line1(3,-3,1);
     lineType Line2(1,5,2);
 
@@ -49,4 +54,48 @@ int main () {
         Line1.findIntersection(Line2);
     }
     cout << endl;
+
+    // [---------------------- PART 2: ----------------------]
+
+    ifstream inFile("data.txt");
+    if (!inFile) {
+        cout << "Error opening data.txt. Try again.";
+        return 1;
+    }
+
+    vector<shapeType> Shapes;
+    double x, y, z;
+
+    // Reading in four lines from file to each shape while storing each shape in vector.
+    while (true) {
+        shapeType Shape;
+        bool validShape = true;
+
+        for (int i = 1; i <= 4; ++i) {
+            if (!(inFile >> x >> y >> z)) {
+                validShape = false;
+                break;
+            }
+
+            lineType Line(x, y, z);
+            Shape.setLineType(i, Line);
+        }
+
+        if (!validShape) break;
+        Shapes.push_back(Shape);
+    }
+
+    
+
+    /*  Print lines of each shape
+
+    for (shapeType& shape : Shapes) {
+        for (int i = 1; i <= 4; i++) {
+            shape.getLineType(i).printStandardForm();
+        }
+        cout << endl;
+    }
+
+    */
+    return 0;
 }
