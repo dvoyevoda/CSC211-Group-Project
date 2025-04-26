@@ -8,10 +8,11 @@ public:
     bool isEqual(lineType line);
     bool isParallel(lineType line);
     bool isPerpendicular(lineType line);
-    void findIntersection(lineType line);
+    void findIntersection(lineType line, Point& intersection); 
 
     void printSlopeForm();
     void printStandardForm();
 private:
     double a,b,c;
+    
 };

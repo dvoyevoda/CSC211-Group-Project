@@ -4,6 +4,7 @@
 
 #include "linetype.cpp"
 #include "shapetype.cpp"
+#include "point.h" 
 using namespace std;
 
 int main () {
@@ -65,7 +66,7 @@ int main () {
     }
 
     vector<shapeType> Shapes;
-    double x=1, y=1, z=1;
+    double x, y, z;
 
     // Reading in four lines from file to each shape while storing each shape in vector.
     while (true) {
@@ -89,10 +90,27 @@ int main () {
         Shapes.push_back(Shape);
     }
 
-    // Loop through array of shapes, determine the shape and set that as shape name.
     for (shapeType& shape : Shapes) {
+        string shapeType = shape.classifyShape();  // Classify the shape
+        cout << "Shape classified as: " << shapeType << endl;
 
+        // Optionally print intersections of lines
+        Point p1 = shape.getIntersection(shape.getLineType(1), shape.getLineType(2));  
+        cout << "Intersection of Line 1 and Line 2: (" << p1.x << ", " << p1.y << ")" << endl;
+
+        Point p2 = shape.getIntersection(shape.getLineType(2), shape.getLineType(3)); 
+        cout << "Intersection of Line 2 and Line 3: (" << p2.x << ", " << p2.y << ")" << endl;
+
+        Point p3 = shape.getIntersection(shape.getLineType(3), shape.getLineType(4)); 
+        cout << "Intersection of Line 3 and Line 4: (" << p3.x << ", " << p3.y << ")" << endl;
+
+        Point p4 = shape.getIntersection(shape.getLineType(4), shape.getLineType(1));  
+        cout << "Intersection of Line 4 and Line 1: (" << p4.x << ", " << p4.y << ")" << endl;
+        
     }
+
+
+
 
     /*  Print lines of each shape
 
