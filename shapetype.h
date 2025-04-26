@@ -7,7 +7,7 @@ class shapeType {
         shapeType();
         shapeType(lineType a, lineType b, lineType c, lineType d);
 
-        void shapeType::setShapeName(string name);
+        void setShapeName(string name);
         void setLineType(int x, lineType y);
         lineType getLineType(int x);
     private:

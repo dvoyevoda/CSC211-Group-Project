@@ -11,7 +11,7 @@ int main () {
     // [---------------------- PART 1: ----------------------]
 
     // Example Lines
-    lineType Line1(3,-3,1);
+    lineType Line1(1,0,0);
     lineType Line2(1,5,2);
 
     // Extra: Print lines in slope & standard form
@@ -65,7 +65,7 @@ int main () {
     }
 
     vector<shapeType> Shapes;
-    double x, y, z;
+    double x=1, y=1, z=1;
 
     // Reading in four lines from file to each shape while storing each shape in vector.
     while (true) {
@@ -74,6 +74,11 @@ int main () {
 
         for (int i = 1; i <= 4; ++i) {
             if (!(inFile >> x >> y >> z)) {
+                validShape = false;
+                break;
+            }
+            if (x == 0 && y == 0) {
+                cout << "Invalid line in file: a and b cannot both be 0." << endl;
                 validShape = false;
                 break;
             }

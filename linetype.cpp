@@ -3,10 +3,16 @@
 #include <cmath>
 using namespace std;
 
-lineType::lineType(double a, double b, double c) : a(a), b(b), c(c) {}
-
+lineType::lineType(double a, double b, double c) : a(a), b(b), c(c) {
+    if (a == 0 && b == 0) {
+        throw invalid_argument("Invalid input for line. only a OR b can be 0, not both.");
+    }
+}
 double lineType::findSlope() {
-    return b != 0 ? -a / b : NAN;
+    if (b == 0) {
+        return NAN;
+    }
+    return -a / b;
 }
 bool lineType::isEqual(lineType line) {
     return a == line.a && b == line.b && c == line.c;
@@ -18,18 +24,58 @@ bool lineType::isPerpendicular(lineType line) {
     return findSlope() * line.findSlope() == -1;
 }
 void lineType::findIntersection(lineType line) {
-    double slope1 = findSlope(), 
-    slope2 = line.findSlope();
-
-    double x = (line.c-c)/(slope1-slope2), 
-    y = slope1*x + c;
-
-    cout << "Intersection between both lines: (" << x << ", " << y << ")" << endl;
+    if (b == 0 && line.b == 0) {
+        cout << "Both lines are vertical; no intersection exists.";
+    } else if (b == 0) {
+        double x = -c / a;
+        double y = (-line.a * x - line.c) / line.b;
+        if (fabs(x) < 1e-9) x = 0; // Handle -0
+        if (fabs(y) < 1e-9) y = 0; // Handle -0
+        cout << "Intersection: (" << x << ", " << y << ")" << endl;
+    } else if (line.b == 0) {
+        double x = -line.c / line.a;
+        double y = (-a * x - c) / b;
+        if (fabs(x) < 1e-9) x = 0; // Handle -0
+        if (fabs(y) < 1e-9) y = 0; // Handle -0
+        cout << "Intersection: (" << x << ", " << y << ")" << endl;
+    } else {
+        double slope1 = findSlope(), slope2 = line.findSlope();
+        if (slope1 == slope2) {
+           cout << " Both lines are parallel; no intersection exists.";
+        }
+        double x = (line.c - c) / (slope1 - slope2);
+        double y = slope1 * x + c / b;
+        if (fabs(x) < 1e-9) x = 0; // Handle -0
+        if (fabs(y) < 1e-9) y = 0; // Handle -0
+        cout << "Intersection: (" << x << ", " << y << ")" << endl;
+    }
 }
 
 void lineType::printSlopeForm() {
-    cout << "y = " << findSlope() << "x + " << c/b << endl;
+    double slope = findSlope();
+    double intercept = c / b;
+
+    if (fabs(slope) < 1e-9) slope = 0;       // Handle -0
+    if (fabs(intercept) < 1e-9) intercept = 0; // Handle -0
+
+    if (isnan(slope)) {
+        if (isnan(intercept)) {
+            cout << "y = undefined" << endl;
+            return;
+        }
+        cout << "y = " << intercept << endl;
+        return;
+    } else if (isnan(intercept)) {
+        cout << "y = " << slope << endl;
+        return;
+    }
+
+    cout << "y = " << slope << "x + " << intercept << endl;
 }
 void lineType::printStandardForm() {
-    cout << a << "x + " << b << "y = " << c << endl;
+    double A = a, B = b, C = c;
+    if (fabs(A) < 1e-9) A = 0; // Handle -0
+    if (fabs(B) < 1e-9) B = 0; // Handle -0
+    if (fabs(C) < 1e-9) C = 0; // Handle -0
+    cout << A << "x + " << B << "y = " << C << endl;
 }
