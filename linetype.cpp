@@ -1,10 +1,12 @@
 #include "linetype.h"
+#include <iostream>
+#include <cmath>
 using namespace std;
 
 lineType::lineType(double a, double b, double c) : a(a), b(b), c(c) {}
 
 double lineType::findSlope() {
-    return b != 0 ? -a / b : 0;
+    return b != 0 ? -a / b : NAN;
 }
 bool lineType::isEqual(lineType line) {
     return a == line.a && b == line.b && c == line.c;
@@ -26,7 +28,7 @@ void lineType::findIntersection(lineType line) {
 }
 
 void lineType::printSlopeForm() {
-    cout << "y = " << findSlope() << "x + " << c << endl;
+    cout << "y = " << findSlope() << "x + " << c/b << endl;
 }
 void lineType::printStandardForm() {
     cout << a << "x + " << b << "y = " << c << endl;
