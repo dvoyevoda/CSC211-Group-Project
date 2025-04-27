@@ -4,14 +4,19 @@
 class lineType {
 public:
     lineType(double a = 1, double b = 0, double c = 0);
+    
     double findSlope();
-    bool isEqual(lineType line);
-    bool isParallel(lineType line);
-    bool isPerpendicular(lineType line);
-    void findIntersection(lineType line);
+    bool isParallel(lineType& other);
+    bool isPerpendicular(lineType& other);
+    std::pair<double, double> findIntersection(lineType& other);
 
     void printSlopeForm();
     void printStandardForm();
+
+    // Overload == operator to compare two lines.
+    bool operator==(const lineType& other) const {
+    return a == other.a && b == other.b && c == other.c;
+}
 private:
     double a,b,c;
 };

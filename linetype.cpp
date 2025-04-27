@@ -14,63 +14,82 @@ double lineType::findSlope() {
     }
     return -a / b;
 }
-bool lineType::isEqual(lineType line) {
-    return a == line.a && b == line.b && c == line.c;
+bool lineType::isParallel(lineType& other) {
+    if (b == 0 && other.b == 0) return true;
+    if (b != 0 && other.b != 0) {
+        return fabs(findSlope() - other.findSlope()) < 1e-9;
+    }
+    return false;
 }
-bool lineType::isParallel(lineType line) {
-    return findSlope() == line.findSlope();
+bool lineType::isPerpendicular(lineType& other) {
+    // Vertical ⟂ horizontal
+    if ((b == 0 && other.a == 0) || (a == 0 && other.b == 0)) return true;
+    double m1 = findSlope(), m2 = other.findSlope();
+    return fabs(m1 * m2 + 1) < 1e-9;
 }
-bool lineType::isPerpendicular(lineType line) {
-    return findSlope() * line.findSlope() == -1;
-}
-void lineType::findIntersection(lineType line) {
-    if (b == 0 && line.b == 0) {
-        cout << "Both lines are vertical; no intersection exists.";
+
+// Returns a pair (x,y)
+pair<double, double> lineType::findIntersection(lineType& other) {
+    if (b == 0 && other.b == 0) {
+        return {NAN, NAN};
     } else if (b == 0) {
         double x = -c / a;
-        double y = (-line.a * x - line.c) / line.b;
-        if (fabs(x) < 1e-9) x = 0; // Handle -0
-        if (fabs(y) < 1e-9) y = 0; // Handle -0
-        cout << "Intersection: (" << x << ", " << y << ")" << endl;
-    } else if (line.b == 0) {
-        double x = -line.c / line.a;
+        double y = (-other.a * x - other.c) / other.b;
+        if (fabs(x) < 1e-9) x = 0;  // (fabs(x) < 1e-9) to turn -0 to 0;
+        if (fabs(y) < 1e-9) y = 0;
+        return {x, y};
+    } else if (other.b == 0) {
+        double x = -other.c / other.a;
         double y = (-a * x - c) / b;
-        if (fabs(x) < 1e-9) x = 0; // Handle -0
-        if (fabs(y) < 1e-9) y = 0; // Handle -0
-        cout << "Intersection: (" << x << ", " << y << ")" << endl;
+        if (fabs(x) < 1e-9) x = 0;
+        if (fabs(y) < 1e-9) y = 0;
+        return {x, y};
     } else {
-        double slope1 = findSlope(), slope2 = line.findSlope();
-        if (slope1 == slope2) {
-           cout << " Both lines are parallel; no intersection exists.";
+        double slope1 = findSlope(), slope2 = other.findSlope();
+        if (fabs(slope1 - slope2) < 1e-9) {
+            return {NAN, NAN};
         }
-        double x = (line.c - c) / (slope1 - slope2);
-        double y = slope1 * x + c / b;
-        if (fabs(x) < 1e-9) x = 0; // Handle -0
-        if (fabs(y) < 1e-9) y = 0; // Handle -0
-        cout << "Intersection: (" << x << ", " << y << ")" << endl;
+        double intercept1 = c / b;
+        double intercept2 = other.c / other.b;
+        double x = (intercept2 - intercept1) / (slope1 - slope2);
+        double y = slope1 * x + intercept1;
+        if (fabs(x) < 1e-9) x = 0;
+        if (fabs(y) < 1e-9) y = 0;
+        return {x, y};
     }
 }
 
 void lineType::printSlopeForm() {
-    double slope = findSlope();
-    double intercept = c / b;
-
-    if (fabs(slope) < 1e-9) slope = 0;       // Handle -0
-    if (fabs(intercept) < 1e-9) intercept = 0; // Handle -0
-
-    if (isnan(slope)) {
-        if (isnan(intercept)) {
-            cout << "y = undefined" << endl;
-            return;
-        }
-        cout << "y = " << intercept << endl;
-        return;
-    } else if (isnan(intercept)) {
-        cout << "y = " << slope << endl;
+    // Vertical line: x = -c/a
+    if (b == 0) {
+        double x0 = -c / a;
+        if (fabs(x0) < 1e-9) x0 = 0;
+        cout << "x = " << x0 << endl;
         return;
     }
 
-    cout << "y = " << slope << "x + " << intercept << endl;
+    double slope = findSlope();
+    double intercept = c / b;
+
+    // Horizontal line: y = intercept
+    if (a == 0) {
+        if (fabs(intercept) < 1e-9) intercept = 0;
+        cout << "y = " << intercept << endl;
+        return;
+    }
+
+    // Clean up near-zero values
+    if (fabs(slope) < 1e-9) slope = 0;
+    if (fabs(intercept) < 1e-9) intercept = 0;
+
+    // Format as y = mx [±] b
+    cout << "y = " << slope << "x";
+    if (intercept < 0) {
+        cout << " - " << fabs(intercept);
+    } else {
+        cout << " + " << intercept;
+    }
+    cout << endl;
 }
 void lineType::printStandardForm() {
     double A = a, B = b, C = c;

@@ -8,8 +8,7 @@ using namespace std;
 
 int main () {
 
-    // [---------------------- PART 1: ----------------------]
-
+    cout << "[---------------------- PART 1: ----------------------]\n\n";
     // Example Lines
     lineType Line1(1,0,0);
     lineType Line2(1,5,2);
@@ -30,7 +29,7 @@ int main () {
     cout << "Line 2 Slope: " << Line2.findSlope() << "\n\n";
 
     // B: Determinte if two lines are equal
-    if ( Line1.isEqual(Line2)) {
+    if ( Line1 == Line2) {
         cout << "Line 1 and Line 2 are equal.\n";
     } else {
         cout << "Line 1 and Line 2 are NOT equal.\n";
@@ -54,11 +53,10 @@ int main () {
     if (!Line1.isParallel(Line2)) {
         Line1.findIntersection(Line2);
     }
-    cout << endl;
 
-    // [---------------------- PART 2: ----------------------]
+    cout << "\n[---------------------- PART 2: ----------------------]\n\n";
 
-    ifstream inFile("data.txt");
+    ifstream inFile("Lines.txt");
     if (!inFile) {
         cout << "Error opening data.txt. Try again.";
         return 1;
@@ -91,18 +89,66 @@ int main () {
 
     // Loop through array of shapes, determine the shape and set that as shape name.
     for (shapeType& shape : Shapes) {
+        lineType line1 = shape.getLineType(1), line2 = shape.getLineType(2), line3 = shape.getLineType(3), line4 = shape.getLineType(4);
 
+        // Corners of shape
+        pair<double, double> c1 = line1.findIntersection(line3);
+        pair<double, double> c2 = line3.findIntersection(line2); 
+        pair<double, double> c3 = line2.findIntersection(line4);  
+        pair<double, double> c4 = line4.findIntersection(line1); 
+
+        // Find side lengths
+        double length1 = shape.findDistance(c1, c2);
+        double length2 = shape.findDistance(c2, c3);
+        double length3 = shape.findDistance(c3, c4);
+        double length4 = shape.findDistance(c4, c1);
+
+        // Check if parallelogram
+        if (line1.isParallel(line2) && line3.isParallel(line4)) {
+
+            // Check if approximately equal due to potential floating point error
+            if (abs(length1 - length2) < 0.001 && abs(length2 - length3) < 0.001 && abs(length3 - length4) < 0.001) {
+
+                if (line1.isPerpendicular(line3) && line2.isPerpendicular(line4)) {
+                    shape.setShapeName("Square");
+                } else {
+                    shape.setShapeName("Rhombus");
+                }
+            } else {
+                if (line1.isPerpendicular(line3) && line2.isPerpendicular(line4)) {
+                    shape.setShapeName("Rectangle");
+                } else {
+                    shape.setShapeName("Parallelogram");
+                }
+            }
+        
+        // Only ONE pair of sides parallel; Trapezoid
+        } else if (line1.isParallel(line2) || line3.isParallel(line4)) {
+
+            shape.setShapeName("Trapezoid");
+        } else {
+            shape.setShapeName("No shape exists.");
+        }
     }
 
-    /*  Print lines of each shape
+    // Print shape types
+    int shapeNumber = 1;
+    for (shapeType& shape : Shapes) {
+        cout << "Shape " << shapeNumber << " is a: " << shape.getShapeName() << endl;
+        shapeNumber++;
+    }
+
+    cout << endl;
+
+    cout << "Lines provided, converted into Slope-Intercept form: \n\n";
 
     for (shapeType& shape : Shapes) {
         for (int i = 1; i <= 4; i++) {
-            shape.getLineType(i).printStandardForm();
+            shape.getLineType(i).printSlopeForm();
         }
         cout << endl;
     }
 
-    */
+    
     return 0;
 }
