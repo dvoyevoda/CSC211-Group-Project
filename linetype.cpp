@@ -96,5 +96,21 @@ void lineType::printStandardForm() {
     if (fabs(A) < 1e-9) A = 0; // Handle -0
     if (fabs(B) < 1e-9) B = 0; // Handle -0
     if (fabs(C) < 1e-9) C = 0; // Handle -0
-    cout << A << "x + " << B << "y = " << C << endl;
+
+    // Handle vertical lines and if remove coefficients of 1 for cleaner look.
+    if (A > 0) {
+        if (A == 1) {
+            cout << "x";
+        } else {
+            cout << A << "x";
+        }
+    }
+    if (B > 0) {
+        if (B == 1) {
+            cout << " + y";
+        } else {
+            cout << " + " << B << "y";
+        }
+    }
+    cout << " = " << C << endl;
 }
