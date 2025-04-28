@@ -8,7 +8,9 @@ using namespace std;
 
 int main () {
 
-    cout << "[---------------------- PART 1: ----------------------]\n\n";
+    cout << "[---------------------- PART 1: ----------------------]\n\n"
+        << "Sample lines: \n\n1, 0, 0\n1, 5, 2\n";
+
     // Example Lines
     lineType Line1(1,0,0);
     lineType Line2(1,5,2);
@@ -91,6 +93,12 @@ int main () {
     for (shapeType& shape : Shapes) {
         lineType line1 = shape.getLineType(1), line2 = shape.getLineType(2), line3 = shape.getLineType(3), line4 = shape.getLineType(4);
 
+        // Edge case if all lines are the same
+        if (line1 == line2 && line2 == line3 && line3 == line4) {
+            shape.setShapeName("No shape exists.");
+            continue;
+        }
+
         // Corners of shape
         pair<double, double> c1 = line1.findIntersection(line3);
         pair<double, double> c2 = line3.findIntersection(line2); 
@@ -140,6 +148,8 @@ int main () {
 
     cout << endl;
 
+    /* Optional: Print lines from txt
+    
     cout << "Lines provided, converted into Slope-Intercept form: \n\n";
 
     for (shapeType& shape : Shapes) {
@@ -148,7 +158,7 @@ int main () {
         }
         cout << endl;
     }
-
+    */
     
     return 0;
 }
