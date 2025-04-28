@@ -1,10 +1,11 @@
 #pragma once
 #include <string>
+#include <utility>
 
 class lineType {
 public:
     lineType(double a = 1, double b = 0, double c = 0);
-    
+
     double findSlope();
     bool isParallel(lineType& other);
     bool isPerpendicular(lineType& other);

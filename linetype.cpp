@@ -1,6 +1,7 @@
 #include "linetype.h"
 #include <iostream>
 #include <cmath>
+#include <utility>
 using namespace std;
 
 lineType::lineType(double a, double b, double c) : a(a), b(b), c(c) {
